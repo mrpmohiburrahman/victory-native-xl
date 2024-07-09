@@ -40,6 +40,11 @@ export const ChartRoutes: {
     path: "/bar-charts-custom-bars",
   },
   {
+    title: "Stacked Bar Charts",
+    description: "This is a Stacked Bar chart in Victory Native.",
+    path: "/stacked-bar-charts",
+  },
+  {
     title: "Scatter Plot",
     description:
       "This is a Scatter plot in Victory Native that supports custom shapes and sizes.",

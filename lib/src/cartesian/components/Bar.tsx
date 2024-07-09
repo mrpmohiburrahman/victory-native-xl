@@ -15,6 +15,7 @@ type CartesianBarProps = {
   roundedCorners?: RoundedCorners;
   barWidth?: number;
   barCount?: number;
+  stacked?: boolean;
 } & Partial<Pick<PathProps, "color" | "blendMode" | "opacity" | "antiAlias">>;
 
 export const Bar = ({
