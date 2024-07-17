@@ -3,7 +3,8 @@
   "private": true,
   "workspaces": [
     "lib",
-    "example"
+    "example",
+    "plugins/*"
   ],
   "license": "MIT",
   "react-native": "src/index",

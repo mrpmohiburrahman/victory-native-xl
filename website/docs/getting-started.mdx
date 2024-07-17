@@ -5,6 +5,31 @@ import tooltipMp4 from "./assets/getting-started-tooltip.mp4";
 
 ## Installation
 
+
+```SnackPlayer name=Hello%20World
+import React from 'react';
+import {Text, View} from 'react-native';
+
+const YourApp = () => {
+  return (
+    <View
+      style={{
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}>
+      <Text>Try editing me! 🎉</Text>
+    </View>
+  );
+};
+
+export default YourApp;
+```
+
+
+
+
+
 Start by installing the peer dependencies of `victory-native` – [React Native Reanimated](https://docs.swmansion.com/react-native-reanimated/), [Gesture Handler](https://docs.swmansion.com/react-native-gesture-handler/), and [Skia](https://shopify.github.io/react-native-skia/):
 
 ```shell
@@ -59,6 +84,29 @@ At this point, we're you'll just see a blank view, since we aren't rendering any
 
 The `CartesianChart` uses a render function for its `children` prop. To render content inside of the Cartesian chart, you return Skia elements from the `children` render function. We'll use [the `Line` component](./cartesian/line/line.md) from `victory-native` to render a line path using our temperature data.
 
+```SnackPlayer name=Hello%20World dependencies=victory-native
+import { View } from "react-native";
+import { CartesianChart, Line } from "victory-native";
+
+const DATA = Array.from({ length: 31 }, (_, i) => ({
+  day: i,
+  highTmp: 40 + 30 * Math.random(),
+}));
+function MyChart() {
+  return (
+    <View style={{ height: 300 }}>
+      <CartesianChart data={DATA} xKey="day" yKeys={["highTmp"]}>
+        {/* 👇 render function exposes various data, such as points. */}
+        {({ points }) => (
+          // 👇 and we'll use the Line component to render a line path.
+          <Line points={points.highTmp} color="red" strokeWidth={3} />
+        )}
+      </CartesianChart>
+    </View>
+  );
+}
+
+```
 ```tsx
 import { View } from "react-native";
 import { CartesianChart, Line } from "victory-native";

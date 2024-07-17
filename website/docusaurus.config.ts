@@ -16,7 +16,8 @@ const config: Config = {
   favicon: "img/favicon.png",
   organizationName: "Nearform Commerce",
   projectName: "victory-native",
-
+  scripts: [{ src: "https://snack.expo.dev/embed.js", defer: true }],
+  clientModules: [require.resolve("./modules/snackPlayerInitializer.js")],
   // Even if you don't use internalization, you can use this field to set useful
   // metadata like html lang. For example, if your site is Chinese, you may want
   // to replace "en" with "zh-Hans".
@@ -31,6 +32,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
+          remarkPlugins: [require("@victory-native-xl/remark-snackplayer")],
         },
         theme: {
           customCss: "./src/css/custom.css",
