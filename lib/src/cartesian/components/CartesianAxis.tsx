@@ -17,6 +17,17 @@ import type {
 } from "../../types";
 import { DEFAULT_TICK_COUNT } from "../../utils/tickHelpers";
 
+const splitLabel = (label: string) => {
+  const lines = label.split("\n");
+  const hasRealNewline = lines.length > 1;
+  const shouldRenderNewline =
+    hasRealNewline && lines.some((line) => !line.includes("\\n"));
+  if (shouldRenderNewline) {
+    return lines;
+  }
+  return [label.replace(/\\n/g, "\n")];
+};
+
 export const CartesianAxis = <
   RawData extends Record<string, unknown>,
   XK extends keyof InputFields<RawData>,
@@ -116,8 +127,10 @@ export const CartesianAxis = <
   const fontSize = font?.getSize() ?? 0;
 
   const yAxisNodes = yTicksNormalized.map((tick) => {
-    const contentY = formatYLabel(tick as never);
-    const labelWidth = font?.measureText?.(contentY).width ?? 0;
+    const contentY = splitLabel(formatYLabel(tick as never));
+    const labelWidth = Math.max(
+      ...contentY.map((line) => font?.measureText?.(line).width ?? 0),
+    );
     const labelY = yScale(tick) + fontSize / 3;
     const labelX = (() => {
       // left, outset
@@ -146,27 +159,28 @@ export const CartesianAxis = <
           color={gridYLineColor}
           strokeWidth={gridYLineWidth}
         />
-        {font
-          ? canFitLabelContent && (
-              <Text
-                color={
-                  typeof labelColor === "string" ? labelColor : labelColor.y
-                }
-                text={contentY}
-                font={font}
-                y={labelY}
-                x={labelX}
-              />
-            )
-          : null}
+        {font &&
+          canFitLabelContent &&
+          contentY.map((line, index) => (
+            <Text
+              key={`y-tick-${tick}-line-${index}`}
+              color={typeof labelColor === "string" ? labelColor : labelColor.y}
+              text={line}
+              font={font}
+              y={labelY + index * fontSize}
+              x={labelX}
+            />
+          ))}
       </React.Fragment>
     );
   });
 
   const xAxisNodes = xTicksNormalized.map((tick) => {
     const val = isNumericalData ? tick : ix[tick];
-    const contentX = formatXLabel(val as never);
-    const labelWidth = font?.measureText?.(contentX).width ?? 0;
+    const contentX = splitLabel(formatXLabel(val as never));
+    const labelWidth = Math.max(
+      ...contentX.map((line) => font?.measureText?.(line).width ?? 0),
+    );
     const labelX = xScale(tick) - (labelWidth ?? 0) / 2;
     const canFitLabelContent =
       yAxisPosition === "left" ? labelX + labelWidth < x2r : x1r < labelX;
@@ -196,15 +210,19 @@ export const CartesianAxis = <
           color={gridXLineColor}
           strokeWidth={gridXLineWidth}
         />
-        {font && labelWidth && canFitLabelContent ? (
-          <Text
-            color={typeof labelColor === "string" ? labelColor : labelColor.x}
-            text={contentX}
-            font={font}
-            y={labelY}
-            x={labelX}
-          />
-        ) : null}
+        {font &&
+          labelWidth &&
+          canFitLabelContent &&
+          contentX.map((line, index) => (
+            <Text
+              key={`x-tick-${tick}-line-${index}`}
+              color={typeof labelColor === "string" ? labelColor : labelColor.x}
+              text={line}
+              font={font}
+              y={labelY + index * fontSize}
+              x={labelX}
+            />
+          ))}
       </React.Fragment>
     );
   });
