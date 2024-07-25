@@ -39,8 +39,12 @@ export default function BarChartPage(props: { segment: string }) {
               tickCount: 5,
               formatXLabel: (value) => {
                 const date = new Date(2023, value - 1);
-                return date.toLocaleString("default", { month: "short" });
+                // return date.toLocaleString("default", { month: "short" });
+                return `hello\nworld, how are you?`;
+                // return `hello
+                // world`;
               },
+
               lineColor: isDark ? "#71717a" : "#d4d4d8",
               labelColor: isDark ? appColors.text.dark : appColors.text.light,
             }}
