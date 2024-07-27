@@ -32,7 +32,6 @@ const config: Config = {
       {
         docs: {
           sidebarPath: "./sidebars.ts",
-          remarkPlugins: [require("@victory-native-xl/remark-snackplayer")],
         },
         theme: {
           customCss: "./src/css/custom.css",
