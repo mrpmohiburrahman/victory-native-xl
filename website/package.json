@@ -22,6 +22,7 @@
     "formidable-oss-badges": "^1.4.1",
     "postcss": "^8.4.29",
     "prism-react-renderer": "^2.3.0",
+    "raw-loader": "^4.0.2",
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-player": "^2.12.0",
